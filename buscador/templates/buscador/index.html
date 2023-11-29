@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Astrolink</title>
+    <!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq7846h56WW21oPxoWXqELCrh2AaRpA60ZF8jIjoFd+3h78Urw3pO8w9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap">
+    <style>
+      body {
+      
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: rgb(156, 156, 156);
+    }
+
+    .search-container {
+      text-align: center;
+    }
+
+    .custom-width-input {
+      width: 60vh; /* Ancho personalizado */
+      border-top-left-radius: 15px;
+      border-bottom-left-radius: 15px ;
+      padding-left: 10px;
+      color: black;
+      transition: border-color 0.5s;
+    }
+    .custom-width-input:hover::placeholder{
+      color: white;
+      transition: border-color 0.5s;
+    }
+    .custom-width-input:hover{
+      background-color: green;
+      color: white;
+      transition: border-color 0.5s;
+    }
+    .custom-width-input:focus{
+      color: white;
+      background-color: green;
+      border-color: rgb(91, 133, 91);
+      transition: border-color 0.5s;
+    }
+
+    @keyframes colorChange {
+  0% {
+    color: #02da02; /* Color inicial (verde brillante) */
+  }
+  25% {
+    color: #039c03;
+  }
+  50% {
+    color: #015301; /* Color intermedio (verde oscuro) */
+  }
+  75% {
+    color: #039c03;
+  }
+  100% {
+    color: #02da02; /* Color final (verde brillante) */
+  }
+}
+
+.h1 {
+  animation: colorChange 5s infinite; /* La animación dura 5 segundos y se repite infinitamente */
+  padding-bottom: 44px;
+  font-size: 5em;
+}
+/* Definir el tamaño de fuente para pantallas pequeñas */
+@media (max-width: 640px) {
+  .h1 {
+    font-size: 1.5em;
+  }
+}
+/* Definir el tamaño de fuente para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .h1 {
+    font-size: 1em;
+  }
+}
+
+.scroll-container {
+    max-height: 90%; /* Altura máxima del contenedor antes de que aparezca la barra de desplazamiento */
+    overflow-y: auto; /* Muestra la barra de desplazamiento vertical */
+    
+    display: flex;
+    flex-direction: column; /* Apila los elementos en columna */
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; 
+}
+.container {
+  margin: auto;
+}
+.contenedoresDiv {
+  background-color: rgba(114,114,114,0.64);
+  width: 90%; 
+  height: 100px;
+  border-radius: 15px;
+  padding: 10px;
+  margin-top: 5px;
+  margin-left: 10px;
+  
+}
+.titulosCS {
+  font-size: 25px;
+  font-weight: bold;
+}
+.linksCS {
+  color: white;
+}
+    
+    </style>
+  </head>
+  <body style="background-color: rgba(32,33,36,255);">
+
+    <div class="search-container">
+      <p class="h1">Astrolink Search</p>
+      {% csrf_token %}
+      
+      <div class="container">
+      
+        <form action="{% url 'buscador:buscadorvista' %}" method="post">
+          
+        <input type="text" name="busqueda" class="custom-width-input" aria-label="Buscar" placeholder="¿Qué deseas explorar hoy?">
+        
+        <button type="submit" class="btn btn-outline-success" id="btnBuscar">
+          Buscar 
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-rocket-takeoff-fill" viewBox="0 0 16 16">
+            <path d="M12.17 9.53c2.307-2.592 3.278-4.684 3.641-6.218.21-.887.214-1.58.16-2.065a3.578 3.578 0 0 0-.108-.563 2.22 2.22 0 0 0-.078-.23V.453c-.073-.164-.168-.234-.352-.295a2.35 2.35 0 0 0-.16-.045 3.797 3.797 0 0 0-.57-.093c-.49-.044-1.19-.03-2.08.188-1.536.374-3.618 1.343-6.161 3.604l-2.4.238h-.006a2.552 2.552 0 0 0-1.524.734L.15 7.17a.512.512 0 0 0 .433.868l1.896-.271c.28-.04.592.013.955.132.232.076.437.16.655.248l.203.083c.196.816.66 1.58 1.275 2.195.613.614 1.376 1.08 2.191 1.277l.082.202c.089.218.173.424.249.657.118.363.172.676.132.956l-.271 1.9a.512.512 0 0 0 .867.433l2.382-2.386c.41-.41.668-.949.732-1.526l.24-2.408Zm.11-3.699c-.797.8-1.93.961-2.528.362-.598-.6-.436-1.733.361-2.532.798-.799 1.93-.96 2.528-.361.599.599.437 1.732-.36 2.531Z"/>
+            <path d="M5.205 10.787a7.632 7.632 0 0 0 1.804 1.352c-1.118 1.007-4.929 2.028-5.054 1.903-.126-.127.737-4.189 1.839-5.18.346.69.837 1.35 1.411 1.925Z"/>
+          </svg>
+        </button>
+        </form>
+        
+        {% if nresultados %}
+        <p style="color: white;">Se encontrarón: {{nresultados}} resultados en {{tiempo}} seg. </p>
+
+        {% endif %}
+
+      </div>
+      
+    </div>
+
+    
+
+    <!-- Seccion del scroll View -->
+    <div class="scroll-container">
+      <!-- Contenido de tu vista aquí -->
+      {% for titulo, listaurl, npalabras, frecuencia in combinados %}
+      <div class="contenedoresDiv">
+        <p class="titulosCS">{{ titulo }} -  Num. Plabras: {{ npalabras }} -  Frecuencia: {{ frecuencia}}</p>
+        <p class="linksCS"> <a href="{{ listaurl }}"> {{ listaurl }}</a></p>
+      </div>
+      {% endfor %}
+    </div>
+
+    
+       
+    <!-- Agrega los scripts de Bootstrap al final del cuerpo si no los tienes -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

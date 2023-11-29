@@ -8,10 +8,11 @@ import requests
 from bs4 import BeautifulSoup
 
 datos = json.dumps({})
-
-with open('indexraiz.txt', 'r', encoding='utf-8') as file:
-    datos = json.load(file)
-
+try: 
+    with open('indexraiz.txt', 'r', encoding='utf-8') as file:
+        datos = json.load(file)
+except :
+    print("Errors")
 
 nltk.download('punkt')
 nltk.download('stopwords')

@@ -7,12 +7,13 @@ import time
 import requests
 from bs4 import BeautifulSoup
 
+datos = json.dumps({})
 try: 
     with open('indexraiz.txt', 'r', encoding='utf-8') as file:
         datos = json.load(file)
 except (e):
     print(e)
-    
+
 nltk.download('punkt')
 nltk.download('stopwords')
 

@@ -117,11 +117,10 @@
 
     <div class="search-container">
       <p class="h1">Astrolink Search</p>
-      {% csrf_token %}
-      
       <div class="container">
       
         <form action="{% url 'buscador:buscadorvista' %}" method="post">
+        {% csrf_token %}
           
         <input type="text" name="busqueda" class="custom-width-input" aria-label="Buscar" placeholder="¿Qué deseas explorar hoy?">
         

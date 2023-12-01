@@ -12,7 +12,7 @@ datos = json.dumps({})
 
 with open('urlslimitadas.txt', 'r', encoding='utf-8') as file:
     datos = json.load(file)
-print(datos)
+#print(datos)
 
 nltk.download('punkt')
 nltk.download('stopwords')

@@ -6,13 +6,13 @@ from nltk.corpus import stopwords
 import time
 import requests
 from bs4 import BeautifulSoup
+import textwrap
 
 datos = json.dumps({})
-try: 
-    with open('indexraiz.txt', 'r', encoding='utf-8') as file:
-        datos = json.load(file)
-except :
-    print("Errors")
+
+with open('urlslimitadas.txt', 'r', encoding='utf-8') as file:
+    datos = json.load(file)
+print(datos)
 
 nltk.download('punkt')
 nltk.download('stopwords')
@@ -81,6 +81,7 @@ def buscadorweb(text):
                 frecuencia_url = entrada.get("frecuencia_url", {})
                 palabras_encontradas[palabra_actual]["frecuencia_url"].update(frecuencia_url)
 
+        print("Pasa primer for")
         # Convertir las claves de palabras_encontradas a una lista
         palabras_lista = list(palabras_encontradas.keys())
 
@@ -89,14 +90,14 @@ def buscadorweb(text):
         for palabra in palabras_lista:
             frecuencia_url = palabras_encontradas[palabra]["frecuencia_url"]
             urls_coincidentes[palabra] = [url for url, frecuencia in frecuencia_url.items() if frecuencia > 0]
-
+        print("Pasa segundo for")
         # Crear un diccionario para contar la cantidad de palabras por URL
         cont_palabras_por_url = {}
         interseccion_urls = set(urls_coincidentes[palabras_lista[0]])
         for url in interseccion_urls:
             num_palabras_coincidentes = sum(1 for urls in urls_coincidentes.values() if url in urls)
             cont_palabras_por_url[url] = num_palabras_coincidentes
-
+        print("Pasa tercer for")
         # Ordenar las URLs por la cantidad de palabras coincidentes
         #urls_ordenadas = sorted(cont_palabras_por_url.items(), key=lambda x: (x[1], suma_frecuencias[x[0]]), reverse=True)
         urls_ordenadas = sorted(cont_palabras_por_url.items(), key=lambda x: x[1], reverse=True)
@@ -111,9 +112,12 @@ def buscadorweb(text):
             
             
             try: 
-                titulos.append(obtener_titulo_con_header(url))
-            except:
-                titulos.append("Error al obtener nombre")
+                titulo = obtener_titulo_con_header(url)
+                titulofin = textwrap.shorten(titulo, width=50, placeholder="...")
+                titulos.append(titulofin)
+            except Exception as e:
+                titulos.append("Titulo Url")
+                print(e)
             urls.append(url)
             numpalabras.append(num_palabras)
             ###
@@ -130,8 +134,8 @@ def buscadorweb(text):
             frecuencias.append(suma_frecuencias)
             i = i+1
             if i == 10:
-                break
-                
+               break
+        print("Pasa cuarto for")        
         if all(valor == numpalabras[0] for valor in numpalabras):
             print("Son iguales acomodalas")
             combinadas = list(zip(titulos, urls, numpalabras, frecuencias))
@@ -142,5 +146,6 @@ def buscadorweb(text):
             # Descombinar las listas ordenadas
             titulos, urls, numpalabras, frecuencias = zip(*combinadas_ordenadas)
         return titulos, urls, numpalabras, frecuencias
-    except:
+    except Exception as e:
+        print(f"Error: {e}")
         return [], [], [], []
